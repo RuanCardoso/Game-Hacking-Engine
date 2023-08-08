@@ -1,0 +1,55 @@
+<Window
+    x:Class="Game_Hacking_Engine.Views.FileDialogWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="using:Game_Hacking_Engine.ViewModels"
+    Title="FileDialogWindow"
+    Width="600"
+    Height="400"
+    d:DesignHeight="400"
+    d:DesignWidth="600"
+    x:DataType="vm:FileDialogWindowViewModel"
+    Background="Transparent"
+    CanResize="True"
+    ExtendClientAreaToDecorationsHint="True"
+    TransparencyLevelHint="AcrylicBlur"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+
+    <Design.DataContext>
+        <!--
+            This only sets the DataContext for the previewer in an IDE,
+            to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
+        -->
+        <vm:FileDialogWindowViewModel />
+    </Design.DataContext>
+
+    <StackPanel>
+        <Grid ColumnDefinitions="Auto, *, Auto">
+            <Button Command="{Binding BackDirectory}" Content="←">
+            </Button>
+            <TextBox
+                Name="PathControl"
+                Grid.Column="1"
+                MinHeight="25"
+                MaxHeight="25"
+                Margin="10,3,150,0"
+                VerticalContentAlignment="Center"
+                FontSize="10"
+                Text="{Binding DefaultPath, Mode=TwoWay}">
+            </TextBox>
+        </Grid>
+        <Grid
+            Name="GridTree"
+            Margin="5,10,0,0"
+            ColumnDefinitions="*, *"
+            RowDefinitions="0">
+            <TreeView Name="LeftTreeView">
+            </TreeView>
+            <TreeView Name="RightTreeView" Grid.Column="1">
+            </TreeView>
+        </Grid>
+    </StackPanel>
+</Window>
