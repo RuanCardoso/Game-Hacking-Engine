@@ -10,17 +10,18 @@ namespace Game_Hacking_Engine.ViewModels
     public partial class FileDialogWindowViewModel : ViewModelBase
     {
         string defaultPath = @"C:\";
-        public string DefaultPath
+        public string DefaultPath // Binding UI
         {
-            get => defaultPath; set
+            get => defaultPath;
+            set
             {
                 defaultPath = value;
                 OnPropertyChanged(nameof(DefaultPath));
             }
         }
-        public Grid? GridTree { get; set; }
-        public TreeView? LeftTreeView { get; set; }
-        public TreeView? RightTreeView { get; set; }
+        public Grid? GridTree { get; set; } // Binding UI
+        public TreeView? LeftTreeView { get; set; } // Binding UI
+        public TreeView? RightTreeView { get; set; } // Binding UI
 
         public FileDialogWindowViewModel()
         {
@@ -66,8 +67,16 @@ namespace Game_Hacking_Engine.ViewModels
             foreach (string file in files)
             {
                 var item = new TreeViewItemPath(file, Path.GetFileName(file), true);
+                item.Item.DoubleTapped += (_, _) => OpenFile(file);
                 RightTreeView!.Items.Add(item.Item);
             }
+        }
+
+        private void OpenFile(string path)
+        {
+            WServices.Path = path;
+            Window view = WindowManager.GetWindow(Windows.FileDialog);
+            view.Close();
         }
 
         private void OpenDirectory(string path)

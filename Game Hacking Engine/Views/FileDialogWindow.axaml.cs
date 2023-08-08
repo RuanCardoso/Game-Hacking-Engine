@@ -19,6 +19,6 @@ public partial class FileDialogWindow : Window
         PathControl.TextChanged += viewModel.OnTextChanged;
         viewModel.Initialize();
         // Others events
-        this.Resized += viewModel.OnResized;
+        Resized += viewModel.OnResized;
     }
 }

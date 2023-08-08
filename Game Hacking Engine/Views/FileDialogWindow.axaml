@@ -12,7 +12,7 @@
     d:DesignWidth="600"
     x:DataType="vm:FileDialogWindowViewModel"
     Background="Transparent"
-    CanResize="True"
+    CanResize="False"
     ExtendClientAreaToDecorationsHint="True"
     TransparencyLevelHint="AcrylicBlur"
     WindowStartupLocation="CenterScreen"

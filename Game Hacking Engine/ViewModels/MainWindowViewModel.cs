@@ -7,8 +7,8 @@ namespace Game_Hacking_Engine.ViewModels
     {
         public void OpenFile(Window wParent)
         {
-            Window window = WindowService.OpenFileDialog();
-            window.ShowDialog(wParent);
+            Window? window = WindowService.OpenFileDialog();
+            window?.ShowDialog(wParent);
         }
     }
 }

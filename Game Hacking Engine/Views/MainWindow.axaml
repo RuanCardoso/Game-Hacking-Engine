@@ -13,6 +13,7 @@
     d:DesignWidth="1200"
     x:DataType="vm:MainWindowViewModel"
     Background="Transparent"
+    ExtendClientAreaChromeHints="Default"
     ExtendClientAreaToDecorationsHint="True"
     Icon="/Assets/avalonia-logo.ico"
     TransparencyLevelHint="AcrylicBlur"
@@ -27,7 +28,7 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <Grid RowDefinitions="Auto">
+    <Grid ColumnDefinitions="Auto" RowDefinitions="Auto">
         <Menu Grid.Row="0">
             <MenuItem Header="File">
                 <MenuItem
