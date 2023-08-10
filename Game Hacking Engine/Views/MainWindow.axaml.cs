@@ -14,7 +14,7 @@ namespace Game_Hacking_Engine.Views
 
         private void OnMaximized()
         {
-            Padding = WindowService.IsMaximized(this) ? new(8) : new(0);
+            Padding = WindowService.IsMaximized(this) ? new(WServices.W_PADDING) : new(0);
         }
     }
 }

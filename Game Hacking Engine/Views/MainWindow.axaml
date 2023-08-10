@@ -28,11 +28,11 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <Grid ColumnDefinitions="Auto" RowDefinitions="Auto">
-        <Menu Grid.Row="0">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
                 <MenuItem
-                    Command="{Binding OpenFile}"
+                    Command="{Binding OpenFileDialog}"
                     CommandParameter="{Binding #Window}"
                     Header="Open File">
                 </MenuItem>
@@ -42,5 +42,44 @@
             <MenuItem Header="About">
             </MenuItem>
         </Menu>
-    </Grid>
+        <TabControl
+            Margin="0,5,0,0"
+            DockPanel.Dock="Left"
+            TabStripPlacement="Left">
+            <TabItem FontSize="20" Header="PE Viewer">
+            </TabItem>
+            <TabItem FontSize="20" Header="Dissasembler">
+            </TabItem>
+            <TabItem FontSize="20" Header="Hex Editor">
+            </TabItem>
+        </TabControl>
+        <Rectangle
+            Width="1"
+            Margin="0,10,0,0"
+            DockPanel.Dock="Left"
+            Fill="White"
+            Opacity="0.15">
+        </Rectangle>
+        <Border
+            Margin="10,10,10,30"
+            Padding="8"
+            BorderBrush="#4a4a4a"
+            BorderThickness="1"
+            CornerRadius="4">
+            <Grid>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="{Binding FileName}">
+                    </TextBlock>
+                    <TextBlock Text="{Binding FileLength}">
+                    </TextBlock>
+                    <TextBlock Text="{Binding FileArchitecture}">
+                    </TextBlock>
+                    <TextBlock Text="Name: Client.dll">
+                    </TextBlock>
+                    <TextBlock Text="Name: Client.dll">
+                    </TextBlock>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </DockPanel>
 </Window>

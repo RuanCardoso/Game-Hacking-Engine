@@ -10,15 +10,15 @@ public partial class FileDialogWindow : Window
         InitializeComponent();
     }
 
-    public void Initialize() // Hack.....
+    public void Initialize() // Hack..... MVVM sucks!! BINDING
     {
         var viewModel = (FileDialogWindowViewModel)DataContext!;
         viewModel.GridTree = GridTree;
         viewModel.LeftTreeView = LeftTreeView;
         viewModel.RightTreeView = RightTreeView;
-        PathControl.TextChanged += viewModel.OnTextChanged;
         viewModel.Initialize();
-        // Others events
+        // Initialize Events
+        PathControl.TextChanged += viewModel.OnTextChanged;
         Resized += viewModel.OnResized;
     }
 }

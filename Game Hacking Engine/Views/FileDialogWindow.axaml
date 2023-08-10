@@ -27,7 +27,7 @@
     </Design.DataContext>
 
     <StackPanel>
-        <Grid ColumnDefinitions="Auto, *, Auto">
+        <Grid ColumnDefinitions="Auto, *">
             <Button Command="{Binding BackDirectory}" Content="←">
             </Button>
             <TextBox

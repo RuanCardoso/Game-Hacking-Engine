@@ -74,8 +74,8 @@ namespace Game_Hacking_Engine.ViewModels
 
         private void OpenFile(string path)
         {
-            WServices.Path = path;
             Window view = WindowManager.GetWindow(Windows.FileDialog);
+            FileDialog.Select(path);
             view.Close();
         }
 

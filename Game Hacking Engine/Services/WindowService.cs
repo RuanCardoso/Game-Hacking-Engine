@@ -20,6 +20,7 @@ namespace Game_Hacking_Engine.Services
                 fileDialogWindow.Initialize();
                 return fileDialogWindow;
             }
+
             return default;
         }
 

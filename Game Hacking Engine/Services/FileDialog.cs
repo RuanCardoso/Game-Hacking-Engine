@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Game_Hacking_Engine.Services
@@ -9,6 +10,8 @@ namespace Game_Hacking_Engine.Services
         {
             IgnoreInaccessible = true,
         };
+
+        public static event Action<string>? OnFileSelected;
 
         public static string[] GetDirectories(string path, string pattern = "*")
         {
@@ -29,6 +32,12 @@ namespace Game_Hacking_Engine.Services
                 TreeViewItemPath treeViewItemPath = new(dir, Path.GetFileName(dir));
                 yield return treeViewItemPath;
             }
+        }
+
+        public static void Select(string path)
+        {
+            WServices.Path = path;
+            OnFileSelected?.Invoke(path);
         }
     }
 }
