@@ -5,3 +5,6 @@ dotnet_diagnostic.CA1822.severity = none
 
 # IDE0063: Usar a instrução 'using' simples
 dotnet_diagnostic.IDE0063.severity = none
+
+# IDE0079: Remover a supressão desnecessária
+dotnet_diagnostic.IDE0079.severity = none

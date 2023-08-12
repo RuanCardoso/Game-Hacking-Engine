@@ -24,6 +24,23 @@ namespace Game_Hacking_Engine.Services
             return default;
         }
 
+
+        public static Window? OpenMessageDialog(string title, string message)
+        {
+            MsgBox msgBoxWindow = new()
+            {
+                DataContext = new MsgBoxViewModel()
+            };
+
+            if (WindowManager.AddWindow(msgBoxWindow, Windows.MsgBox))
+            {
+                msgBoxWindow.Initialize(title, message);
+                return msgBoxWindow;
+            }
+
+            return default;
+        }
+
         public static bool IsMaximized(WindowBase window)
         {
             Screen? screen = window.Screens.ScreenFromWindow(window);

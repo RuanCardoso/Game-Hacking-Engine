@@ -1,31 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-    <AssemblyName>Game Hacking Engine</AssemblyName>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+		<AssemblyName>Game Hacking Engine</AssemblyName>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <AvaloniaResource Include="Assets\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="Models\" />
+		<AvaloniaResource Include="Assets\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
+	<ItemGroup>
+	  <None Remove="Assets\DataGridFluent.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\.editorconfig" Link=".editorconfig" />
+	</ItemGroup>
 
 
-  <ItemGroup>
-    <PackageReference Include="Avalonia" Version="11.0.2" />
-    <PackageReference Include="Avalonia.Desktop" Version="11.0.2" />
-    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.2" />
-    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.2" />
-    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.2" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Avalonia" Version="11.0.2" />
+		<PackageReference Include="Avalonia.Controls.DataGrid" Version="11.0.2" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.0.2" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.2" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.2" />
+		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.2" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <AvaloniaResource Update="Assets\DataGridFluent.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </AvaloniaResource>
+	</ItemGroup>
 </Project>

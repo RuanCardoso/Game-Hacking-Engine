@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Game_Hacking_Engine.Services
 {
@@ -24,6 +25,12 @@ namespace Game_Hacking_Engine.Services
         {
             windows.Remove(wKey, out Window? window);
             return window!;
+        }
+
+        public static Window GetParent()
+        {
+            Window[] wnds = windows.Values.ToArray();
+            return wnds[^2];
         }
     }
 }

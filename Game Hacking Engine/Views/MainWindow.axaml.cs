@@ -7,14 +7,17 @@ namespace Game_Hacking_Engine.Views
     {
         public MainWindow()
         {
-            InitializeComponent();
-            // Prevent maximize bug(bigger than screen)
-            Resized += (_, _) => OnMaximized();
+            if (WindowManager.AddWindow(this, Windows.Main))
+            {
+                InitializeComponent();
+                // Prevent maximize bug(bigger than screen)
+                Resized += (_, _) => OnMaximized();
+            }
         }
 
         private void OnMaximized()
         {
-            Padding = WindowService.IsMaximized(this) ? new(WServices.W_PADDING) : new(0);
+            Padding = WindowService.IsMaximized(this) ? new(Constants.W_PADDING) : new(0);
         }
     }
 }

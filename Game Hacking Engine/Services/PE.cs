@@ -1,16 +1,33 @@
 ﻿using System.IO;
-using System.Reflection.PortableExecutable;
 using System.Runtime.InteropServices;
 
 namespace Game_Hacking_Engine.Services
 {
+    public enum IMAGE_DIRECTORY_ENTRY : int
+    {
+        EXPORT = 0,
+        IMPORT = 1,
+        RESOURCE = 2,
+        EXCEPTION = 3,
+        SECURITY = 4,
+        BASERELOC = 5,
+        DEBUG = 6,
+        ARCHITECTURE = 7,
+        GLOBALPTR = 8,
+        TLS = 9,
+        LOAD_CONFIG = 10,
+        BOUND_IMPORT = 11,
+        IAT = 12,
+        DELAY_IMPORT = 13,
+        COM_DESCRIPTOR = 14
+    }
+
     enum Architecture
     {
         x86,
         x64,
         Unk
     }
-
 
     [StructLayout(LayoutKind.Sequential)]
     public struct IMAGE_DOS_HEADER
@@ -36,6 +53,13 @@ namespace Game_Hacking_Engine.Services
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
         public ushort[] e_res2;      // Reserved words
         public uint e_lfanew;         // File address of new exe header(PE -> NT_HEADERS)
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct IMAGE_DATA_DIRECTORY
+    {
+        public uint VirtualAddress;
+        public uint Size;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -83,7 +107,8 @@ namespace Game_Hacking_Engine.Services
         public uint SizeOfHeapCommit;        // Tamanho do heap inicialmente comprometido
         public uint LoaderFlags;             // Sinalizadores do carregador
         public uint NumberOfRvaAndSizes;     // Número de diretórios de dados na estrutura IMAGE_DATA_DIRECTORY
-                                             // Restante da estrutura IMAGE_DATA_DIRECTORY não incluída aqui
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
+        public IMAGE_DATA_DIRECTORY[] DataDirectory;
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -117,8 +142,8 @@ namespace Game_Hacking_Engine.Services
                 {
                     using (BinaryReader bin = new(flStream))
                     {
-                        IMAGE_DOS_HEADER IMAGE_DOS_HEADER = new();
-                        IMAGE_NT_HEADERS IMAGE_NT_HEADERS = new();
+                        IMAGE_DOS_HEADER IMAGE_DOS_HEADER;
+                        IMAGE_NT_HEADERS IMAGE_NT_HEADERS;
 
                         #region DOS_HEADER
                         IMAGE_DOS_HEADER.e_magic = bin.ReadUInt16();      // Magic number ("MZ" for DOS executable)
@@ -195,6 +220,12 @@ namespace Game_Hacking_Engine.Services
                         IMAGE_NT_HEADERS.OptionalHeader.SizeOfHeapCommit = bin.ReadUInt32();        // Tamanho do heap inicialmente comprometido
                         IMAGE_NT_HEADERS.OptionalHeader.LoaderFlags = bin.ReadUInt32();             // Sinalizadores do carregador
                         IMAGE_NT_HEADERS.OptionalHeader.NumberOfRvaAndSizes = bin.ReadUInt32();     // Número de diretórios de dados na estrutura IMAGE_DATA_DIRECTORY
+                        IMAGE_NT_HEADERS.OptionalHeader.DataDirectory = new IMAGE_DATA_DIRECTORY[16];
+                        for (int i = 0; i < 16; i++)
+                        {
+                            IMAGE_NT_HEADERS.OptionalHeader.DataDirectory[i].VirtualAddress = bin.ReadUInt32();
+                            IMAGE_NT_HEADERS.OptionalHeader.DataDirectory[i].Size = bin.ReadUInt32();
+                        }
                         #endregion
 
                         return new PE_HEADER(IMAGE_DOS_HEADER, IMAGE_NT_HEADERS);

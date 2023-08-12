@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Game_Hacking_Engine.Services;
 using System.IO;
 using System.Linq;
@@ -9,16 +10,10 @@ namespace Game_Hacking_Engine.ViewModels
 {
     public partial class FileDialogWindowViewModel : ViewModelBase
     {
-        string defaultPath = @"C:\";
-        public string DefaultPath // Binding UI
-        {
-            get => defaultPath;
-            set
-            {
-                defaultPath = value;
-                OnPropertyChanged(nameof(DefaultPath));
-            }
-        }
+        [ObservableProperty]
+        private string? defaultPath = @"C:\";
+
+        // Manual Bind
         public Grid? GridTree { get; set; } // Binding UI
         public TreeView? LeftTreeView { get; set; } // Binding UI
         public TreeView? RightTreeView { get; set; } // Binding UI
@@ -63,7 +58,7 @@ namespace Game_Hacking_Engine.ViewModels
             // Free memory!
             RightTreeView!.Items.Clear();
             // Populate tree view after free treeview(memory)!
-            string[] files = Directory.GetFiles(path);
+            string[] files = FileDialog.GetFiles(path);
             foreach (string file in files)
             {
                 var item = new TreeViewItemPath(file, Path.GetFileName(file), true);
@@ -74,8 +69,8 @@ namespace Game_Hacking_Engine.ViewModels
 
         private void OpenFile(string path)
         {
-            Window view = WindowManager.GetWindow(Windows.FileDialog);
             FileDialog.Select(path);
+            Window view = WindowManager.GetWindow(Windows.FileDialog);
             view.Close();
         }
 
@@ -139,7 +134,7 @@ namespace Game_Hacking_Engine.ViewModels
 
         public void OnTextChanged(object? sender, RoutedEventArgs e)
         {
-            OpenDirectory(defaultPath);
+            OpenDirectory(DefaultPath!);
         }
 
         public void OnResized(object? sender, WindowResizedEventArgs e)

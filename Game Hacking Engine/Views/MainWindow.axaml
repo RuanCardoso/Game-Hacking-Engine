@@ -29,22 +29,24 @@
     </Design.DataContext>
 
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
+        <Menu
+            Width="200"
+            HorizontalAlignment="Left"
+            DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem
-                    Command="{Binding OpenFileDialog}"
-                    CommandParameter="{Binding #Window}"
-                    Header="Open File">
+                <MenuItem Command="{Binding OpenFileDialog}" Header="Open File">
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Options">
+            <MenuItem Command="{Binding OpenOptionsMenu}" Header="Options">
             </MenuItem>
             <MenuItem Header="About">
             </MenuItem>
         </Menu>
         <TabControl
+            Name="tabControl"
             Margin="0,5,0,0"
             DockPanel.Dock="Left"
+            SelectedIndex="{Binding SelectedTabIndex, Mode=OneWayToSource}"
             TabStripPlacement="Left">
             <TabItem FontSize="20" Header="PE Viewer">
             </TabItem>
@@ -66,19 +68,36 @@
             BorderBrush="#4a4a4a"
             BorderThickness="1"
             CornerRadius="4">
-            <Grid>
-                <StackPanel Orientation="Horizontal" Spacing="10">
-                    <TextBlock Text="{Binding FileName}">
+            <Grid IsVisible="{Binding TabOneIsVisible}" RowDefinitions="Auto, Auto, Auto">
+                <StackPanel
+                    Grid.Row="0"
+                    Orientation="Horizontal"
+                    Spacing="10">
+                    <TextBlock Opacity="0.6" Text="{Binding FileName}">
                     </TextBlock>
-                    <TextBlock Text="{Binding FileLength}">
+                    <TextBlock Opacity="0.6" Text="{Binding FileLength}">
                     </TextBlock>
-                    <TextBlock Text="{Binding FileArchitecture}">
+                    <TextBlock Opacity="0.6" Text="{Binding FileArchitecture}">
                     </TextBlock>
-                    <TextBlock Text="Name: Client.dll">
+                    <TextBlock Opacity="0.6" Text="{Binding BaseOfImage}">
                     </TextBlock>
-                    <TextBlock Text="Name: Client.dll">
+                    <TextBlock Opacity="0.6" Text="{Binding SizeOfImage}">
                     </TextBlock>
                 </StackPanel>
+                <Separator
+                    Grid.Row="1"
+                    Margin="-8,5,-8,0"
+                    Background="#4a4a4a">
+                </Separator>
+                <DataGrid
+                    Name="DataGridControl"
+                    Grid.Row="2"
+                    Margin="0,10,0,0"
+                    AutoGenerateColumns="True"
+                    BorderBrush="Red"
+                    GridLinesVisibility="All"
+                    ItemsSource="{Binding DosHeaderItems}">
+                </DataGrid>
             </Grid>
         </Border>
     </DockPanel>
