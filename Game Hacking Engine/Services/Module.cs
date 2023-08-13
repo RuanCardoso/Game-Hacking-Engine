@@ -37,19 +37,20 @@ namespace Game_Hacking_Engine.Services
 
         public static uint GetHexDigits(TypeCode typeCode)
         {
+            uint baseOfBit = 2U;
             return typeCode switch
             {
-                TypeCode.Boolean => sizeof(bool) * 2,
-                TypeCode.Byte => sizeof(byte) * 2,
-                TypeCode.Int16 => sizeof(short) * 2,
-                TypeCode.UInt16 => sizeof(ushort) * 2,
-                TypeCode.Int32 => sizeof(int) * 2,
-                TypeCode.UInt32 => sizeof(uint) * 2,
-                TypeCode.Int64 => sizeof(long) * 2,
-                TypeCode.UInt64 => sizeof(ulong) * 2,
-                TypeCode.Single => sizeof(float) * 2,
-                TypeCode.Double => sizeof(double) * 2,
-                TypeCode.Decimal => sizeof(decimal) * 2,
+                TypeCode.Boolean => sizeof(bool) * baseOfBit,
+                TypeCode.Byte => sizeof(byte) * baseOfBit,
+                TypeCode.Int16 => sizeof(short) * baseOfBit,
+                TypeCode.UInt16 => sizeof(ushort) * baseOfBit,
+                TypeCode.Int32 => sizeof(int) * baseOfBit,
+                TypeCode.UInt32 => sizeof(uint) * baseOfBit,
+                TypeCode.Int64 => sizeof(long) * baseOfBit,
+                TypeCode.UInt64 => sizeof(ulong) * baseOfBit,
+                TypeCode.Single => sizeof(float) * baseOfBit,
+                TypeCode.Double => sizeof(double) * baseOfBit,
+                TypeCode.Decimal => sizeof(decimal) * baseOfBit,
                 _ => sizeof(uint)
             };
         }

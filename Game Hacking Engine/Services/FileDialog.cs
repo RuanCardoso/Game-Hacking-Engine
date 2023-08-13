@@ -29,8 +29,7 @@ namespace Game_Hacking_Engine.Services
             for (int i = 0; i < directories.Length; i++)
             {
                 var dir = directories[i];
-                TreeViewItemPath treeViewItemPath = new(dir, Path.GetFileName(dir));
-                yield return treeViewItemPath;
+                yield return new(dir, Path.GetFileName(dir));
             }
         }
 

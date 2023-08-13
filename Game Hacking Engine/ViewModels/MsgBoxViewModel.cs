@@ -13,8 +13,8 @@ namespace Game_Hacking_Engine.ViewModels
 
         public void Close()
         {
-            Window window = WindowManager.GetWindow(Windows.MsgBox);
-            window.Close();
+            Window? window = WindowManager.GetWindow(Windows.MsgBox);
+            window?.Close();
         }
 
         public bool IsOk { get; private set; }

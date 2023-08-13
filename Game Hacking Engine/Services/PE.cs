@@ -163,21 +163,17 @@ namespace Game_Hacking_Engine.Services
                         IMAGE_DOS_HEADER.e_lfarlc = bin.ReadUInt16();     // File address of relocation table
                         IMAGE_DOS_HEADER.e_ovno = bin.ReadUInt16();       // Overlay number
                         IMAGE_DOS_HEADER.e_res = new ushort[4];
-                        // FOR LOOP
                         for (int i = 0; i < 4; i++)
                         {
                             IMAGE_DOS_HEADER.e_res[i] = bin.ReadUInt16(); // Reserved words
                         }
-                        // END FOR LOOP
                         IMAGE_DOS_HEADER.e_oemid = bin.ReadUInt16();      // OEM identifier (for e_oeminfo)
                         IMAGE_DOS_HEADER.e_oeminfo = bin.ReadUInt16();    // OEM information; e_oemid specific
                         IMAGE_DOS_HEADER.e_res2 = new ushort[10];
-                        // FOR LOOP
                         for (int i = 0; i < 10; i++)
                         {
                             IMAGE_DOS_HEADER.e_res2[i] = bin.ReadUInt16(); // Reserved words
                         }
-                        // END FOR LOOP
                         IMAGE_DOS_HEADER.e_lfanew = bin.ReadUInt32();      // File address of new exe header(NT_Headers)
                         #endregion
 
@@ -236,7 +232,7 @@ namespace Game_Hacking_Engine.Services
             }
             catch
             {
-                // Used by other process....
+                WindowService.ShowMessage("The process is already in use. Please wait for a few moments and try again. If the issue persists, please contact support.");
                 return default;
             }
         }
@@ -245,8 +241,8 @@ namespace Game_Hacking_Engine.Services
         {
             return optionalHeaderMagic switch
             {
-                0x10B => Architecture.x86,// PE32
-                0x20B => Architecture.x64,// PE32+
+                0x10B => Architecture.x86, // PE32
+                0x20B => Architecture.x64, // PE32+
                 _ => Architecture.Unk,
             };
         }

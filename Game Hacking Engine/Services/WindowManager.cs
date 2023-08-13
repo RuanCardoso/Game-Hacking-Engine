@@ -23,10 +23,15 @@ namespace Game_Hacking_Engine.Services
             return windows.TryAdd(wKey, window);
         }
 
-        public static Window GetWindow(Windows wKey)
+        public static Window? GetWindow(Windows wKey)
         {
-            windows.Remove(wKey, out Window? window);
-            return window!;
+#pragma warning disable IDE0046 
+            if (windows.Remove(wKey, out Window? window))
+            {
+                return window;
+            }
+#pragma warning restore IDE0046
+            return default;
         }
 
         public static void SetTheme(bool isDarkMode)

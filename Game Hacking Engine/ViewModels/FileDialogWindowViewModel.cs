@@ -10,13 +10,13 @@ namespace Game_Hacking_Engine.ViewModels
 {
     public partial class FileDialogWindowViewModel : ViewModelBase
     {
-        [ObservableProperty]
-        private string? defaultPath = @"C:\";
-
         // Manual Bind
         public Grid? GridTree { get; set; } // Binding UI
         public TreeView? LeftTreeView { get; set; } // Binding UI
         public TreeView? RightTreeView { get; set; } // Binding UI
+
+        [ObservableProperty]
+        private string? defaultPath = @"C:\";
 
         public FileDialogWindowViewModel()
         {
@@ -25,53 +25,60 @@ namespace Game_Hacking_Engine.ViewModels
 
         private void PopulateLeftTreeViewWithDirectories(string path)
         {
-            // Free memory!
-            LeftTreeView!.Items.Clear();
-            // Populate tree view after free treeview(memory)!
-            var directories = FileDialog.PopulateTreeViewWithDirectories(path).OrderByDescending(x => x.HasSubDirectories == true);
-            if (directories.Any())
+            if (LeftTreeView != null)
             {
-                // Show the left column if you have directories.
-                ColumnVisibility(true);
-                foreach (TreeViewItemPath dir in directories)
+                // Free memory!
+                LeftTreeView.Items.Clear();
+                // Populate tree view after free treeview(memory)!
+                var directories = FileDialog.PopulateTreeViewWithDirectories(path).OrderByDescending(x => x.HasSubDirectories == true);
+                if (directories.Any())
                 {
-                    if (LeftTreeView!.Items.Add(dir.Item) > -1)
+                    // Show the left column if you have directories.
+                    ColumnVisibility(true);
+                    foreach (TreeViewItemPath dir in directories)
                     {
-                        // Register the tap event
-                        dir.OnDoubleClick += (path) =>
+                        if (LeftTreeView.Items.Add(dir.Item) > -1)
                         {
-                            OpenDirectory(path);
-                        };
+                            // Register the tap event
+                            dir.OnDoubleClick += (path) =>
+                            {
+                                OpenDirectory(path);
+                            };
+                        }
                     }
                 }
+                else
+                {
+                    // Hide the left column if you don't have directories.
+                    ColumnVisibility(false);
+                }
+
+                DefaultPath = path;
             }
-            else
-            {
-                // Hide the left column if you don't have directories.
-                ColumnVisibility(false);
-            }
-            DefaultPath = path;
         }
 
         private void PopulateRightTreeViewWithFiles(string path)
         {
-            // Free memory!
-            RightTreeView!.Items.Clear();
-            // Populate tree view after free treeview(memory)!
-            string[] files = FileDialog.GetFiles(path);
-            foreach (string file in files)
+            if (RightTreeView != null)
             {
-                var item = new TreeViewItemPath(file, Path.GetFileName(file), true);
-                item.Item.DoubleTapped += (_, _) => OpenFile(file);
-                RightTreeView!.Items.Add(item.Item);
+                // Free memory!
+                RightTreeView.Items.Clear();
+                // Populate tree view after free treeview(memory)!
+                string[] files = FileDialog.GetFiles(path);
+                foreach (string file in files)
+                {
+                    var item = new TreeViewItemPath(file, Path.GetFileName(file), true);
+                    item.Item.DoubleTapped += (_, _) => OpenFile(file);
+                    RightTreeView.Items.Add(item.Item);
+                }
             }
         }
 
         private void OpenFile(string path)
         {
             FileDialog.Select(path);
-            Window view = WindowManager.GetWindow(Windows.FileDialog);
-            view.Close();
+            Window? view = WindowManager.GetWindow(Windows.FileDialog);
+            view?.Close();
         }
 
         private void OpenDirectory(string path)
@@ -113,21 +120,24 @@ namespace Game_Hacking_Engine.ViewModels
         double clMaxWidth;
         private void ColumnVisibility(bool value)
         {
-            ColumnDefinition column = GridTree!.ColumnDefinitions[0];
-            if (value == false)
+            if (GridTree != null)
             {
-                if (clMaxWidth == 0)
+                ColumnDefinition column = GridTree.ColumnDefinitions[0];
+                if (value == false)
                 {
-                    clMaxWidth = column.MaxWidth;
-                    column.MaxWidth = 0;
+                    if (clMaxWidth == 0)
+                    {
+                        clMaxWidth = column.MaxWidth;
+                        column.MaxWidth = 0;
+                    }
                 }
-            }
-            else
-            {
-                if (clMaxWidth > 0)
+                else
                 {
-                    column.MaxWidth = clMaxWidth;
-                    clMaxWidth = 0;
+                    if (clMaxWidth > 0)
+                    {
+                        column.MaxWidth = clMaxWidth;
+                        clMaxWidth = 0;
+                    }
                 }
             }
         }
@@ -139,10 +149,13 @@ namespace Game_Hacking_Engine.ViewModels
 
         public void OnResized(object? sender, WindowResizedEventArgs e)
         {
-            RowDefinition row = GridTree!.RowDefinitions[0];
-            double height = e.ClientSize.Height - 40; // 40 -> Top(Header) size!
-            row.MinHeight = height;
-            row.MaxHeight = height;
+            if (GridTree != null)
+            {
+                RowDefinition row = GridTree.RowDefinitions[0];
+                double height = e.ClientSize.Height - 40; // 40 -> Top(Header) size!
+                row.MinHeight = height;
+                row.MaxHeight = height;
+            }
         }
     }
 }

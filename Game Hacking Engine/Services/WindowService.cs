@@ -65,7 +65,6 @@ namespace Game_Hacking_Engine.Services
                 var workingArea = screen.WorkingArea;
                 return window.Height >= workingArea.Height && window.Width >= workingArea.Width;
             }
-
             return false;
         }
     }
