@@ -36,7 +36,7 @@ namespace Game_Hacking_Engine.Services
 
         public static void Select(string path)
         {
-            Constants.Path = path;
+            Module.FilePath = path;
             OnFileSelected?.Invoke(path);
         }
     }

@@ -5,6 +5,7 @@ namespace Game_Hacking_Engine.Views;
 
 public partial class MsgBox : Window
 {
+    private MsgBoxViewModel? viewModel;
     public MsgBox()
     {
         InitializeComponent();
@@ -12,8 +13,13 @@ public partial class MsgBox : Window
 
     public void Initialize(string title, string message)
     {
-        MsgBoxViewModel viewModel = (MsgBoxViewModel)DataContext!;
+        viewModel = (MsgBoxViewModel)DataContext!;
         viewModel.Title = title;
         viewModel.Message = message;
+    }
+
+    public bool GetResult()
+    {
+        return viewModel!.IsOk;
     }
 }

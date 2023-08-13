@@ -2,6 +2,7 @@
 using Avalonia.Platform;
 using Game_Hacking_Engine.ViewModels;
 using Game_Hacking_Engine.Views;
+using System.Threading.Tasks;
 
 namespace Game_Hacking_Engine.Services
 {
@@ -39,6 +40,21 @@ namespace Game_Hacking_Engine.Services
             }
 
             return default;
+        }
+
+        public static void ShowMessage(string message, string title = "System")
+        {
+            Window? window = OpenMessageDialog(title, message);
+            window?.ShowDialog(WindowManager.GetParent());
+        }
+
+        public static Task<bool> ShowMessageAsync(string message, string title = "System")
+        {
+            TaskCompletionSource<bool> taskCompletionSource = new();
+            Window? window = OpenMessageDialog(title, message);
+            window!.Closed += (_, _) => taskCompletionSource.SetResult(((MsgBox)window).GetResult());
+            window!.ShowDialog(WindowManager.GetParent());
+            return taskCompletionSource.Task;
         }
 
         public static bool IsMaximized(WindowBase window)

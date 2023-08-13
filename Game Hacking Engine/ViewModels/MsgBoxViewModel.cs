@@ -16,5 +16,12 @@ namespace Game_Hacking_Engine.ViewModels
             Window window = WindowManager.GetWindow(Windows.MsgBox);
             window.Close();
         }
+
+        public bool IsOk { get; private set; }
+        public void Ok(bool isOk)
+        {
+            IsOk = isOk;
+            Close();
+        }
     }
 }

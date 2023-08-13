@@ -134,6 +134,8 @@ namespace Game_Hacking_Engine.Services
 
     internal class PE
     {
+        // yeah i know i could use marshall here but i don't want to.
+        // Marshal.PtrToStructure.... i know
         public static PE_HEADER GetPEHeader(string path)
         {
             try

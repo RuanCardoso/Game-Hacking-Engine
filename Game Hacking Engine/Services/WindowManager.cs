@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Styling;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,10 +14,11 @@ namespace Game_Hacking_Engine.Services
 
     internal class WindowManager
     {
-        public static Dictionary<Windows, Window> windows = new();
-
+        private static readonly Dictionary<Windows, Window> windows = new();
+        private static bool isDarkMode = true;
         public static bool AddWindow(Window window, Windows wKey)
         {
+            window.RequestedThemeVariant = isDarkMode ? ThemeVariant.Dark : ThemeVariant.Light;
             window.Closed += (_, _) => GetWindow(wKey);
             return windows.TryAdd(wKey, window);
         }
@@ -27,10 +29,24 @@ namespace Game_Hacking_Engine.Services
             return window!;
         }
 
+        public static void SetTheme(bool isDarkMode)
+        {
+            WindowManager.isDarkMode = isDarkMode;
+        }
+
         public static Window GetParent()
         {
-            Window[] wnds = windows.Values.ToArray();
-            return wnds[^2];
+            return GetWindows()[^2];
+        }
+
+        public static Window GetLast()
+        {
+            return GetWindows()[^1];
+        }
+
+        public static Window[] GetWindows()
+        {
+            return windows.Values.ToArray();
         }
     }
 }

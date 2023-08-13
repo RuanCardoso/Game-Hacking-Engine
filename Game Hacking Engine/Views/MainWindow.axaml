@@ -3,20 +3,19 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Game_Hacking_Engine.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Game_Hacking_Engine.ViewModels"
     Name="Window"
     Title="Game_Hacking_Engine"
-    Width="1200"
-    Height="700"
-    d:DesignHeight="700"
-    d:DesignWidth="1200"
+    Width="1366"
+    Height="768"
+    d:DesignHeight="768"
+    d:DesignWidth="1366"
     x:DataType="vm:MainWindowViewModel"
-    Background="Transparent"
     ExtendClientAreaChromeHints="Default"
     ExtendClientAreaToDecorationsHint="True"
     Icon="/Assets/avalonia-logo.ico"
-    TransparencyLevelHint="AcrylicBlur"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
 
@@ -37,7 +36,36 @@
                 <MenuItem Command="{Binding OpenFileDialog}" Header="Open File">
                 </MenuItem>
             </MenuItem>
-            <MenuItem Command="{Binding OpenOptionsMenu}" Header="Options">
+            <MenuItem Header="Options">
+                <MenuItem Header="Offsets">
+                    <MenuItem
+                        Command="{Binding ChangeOffsetMode}"
+                        CommandParameter="0"
+                        Header="Auto">
+                    </MenuItem>
+                    <MenuItem
+                        Command="{Binding ChangeOffsetMode}"
+                        CommandParameter="1"
+                        Header="32 Bits">
+                    </MenuItem>
+                    <MenuItem
+                        Command="{Binding ChangeOffsetMode}"
+                        CommandParameter="2"
+                        Header="64 Bits">
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Theme">
+                    <MenuItem
+                        Command="{Binding ChangeTheme}"
+                        CommandParameter="False"
+                        Header="Light">
+                    </MenuItem>
+                    <MenuItem
+                        Command="{Binding ChangeTheme}"
+                        CommandParameter="True"
+                        Header="Dark">
+                    </MenuItem>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="About">
             </MenuItem>
@@ -67,21 +95,25 @@
             Padding="8"
             BorderBrush="#4a4a4a"
             BorderThickness="1"
-            CornerRadius="4">
-            <Grid IsVisible="{Binding TabOneIsVisible}" RowDefinitions="Auto, Auto, Auto">
+            CornerRadius="4"
+            DockPanel.Dock="Right">
+            <Grid
+                ColumnDefinitions="*"
+                IsVisible="{Binding TabOneIsVisible}"
+                RowDefinitions="Auto, Auto, *">
                 <StackPanel
                     Grid.Row="0"
                     Orientation="Horizontal"
                     Spacing="10">
-                    <TextBlock Opacity="0.6" Text="{Binding FileName}">
+                    <TextBlock Opacity="0.75" Text="{Binding FileName}">
                     </TextBlock>
-                    <TextBlock Opacity="0.6" Text="{Binding FileLength}">
+                    <TextBlock Opacity="0.75" Text="{Binding FileLength}">
                     </TextBlock>
-                    <TextBlock Opacity="0.6" Text="{Binding FileArchitecture}">
+                    <TextBlock Opacity="0.75" Text="{Binding FileArchitecture}">
                     </TextBlock>
-                    <TextBlock Opacity="0.6" Text="{Binding BaseOfImage}">
+                    <TextBlock Opacity="0.75" Text="{Binding BaseOfImage}">
                     </TextBlock>
-                    <TextBlock Opacity="0.6" Text="{Binding SizeOfImage}">
+                    <TextBlock Opacity="0.75" Text="{Binding SizeOfImage}">
                     </TextBlock>
                 </StackPanel>
                 <Separator
@@ -89,15 +121,21 @@
                     Margin="-8,5,-8,0"
                     Background="#4a4a4a">
                 </Separator>
-                <DataGrid
-                    Name="DataGridControl"
+                <ScrollViewer
+                    Name="DGScrollViewer"
                     Grid.Row="2"
-                    Margin="0,10,0,0"
-                    AutoGenerateColumns="True"
-                    BorderBrush="Red"
-                    GridLinesVisibility="All"
-                    ItemsSource="{Binding DosHeaderItems}">
-                </DataGrid>
+                    VerticalScrollBarVisibility="Hidden">
+                    <Grid ColumnDefinitions="*" RowDefinitions="*, *">
+                        <local:CustomDataGrid
+                            Name="DgDosHeader"
+                            Grid.Row="0"
+                            ItemsSource="{Binding DosHeaderItems}" />
+                        <local:CustomDataGrid
+                            Name="DgNtHeaders"
+                            Grid.Row="1"
+                            ItemsSource="{Binding NtHeadersItems}" />
+                    </Grid>
+                </ScrollViewer>
             </Grid>
         </Border>
     </DockPanel>
