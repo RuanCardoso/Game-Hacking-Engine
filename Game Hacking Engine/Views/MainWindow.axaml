@@ -125,7 +125,7 @@
                     Name="DGScrollViewer"
                     Grid.Row="2"
                     VerticalScrollBarVisibility="Hidden">
-                    <Grid ColumnDefinitions="*" RowDefinitions="*, *">
+                    <Grid ColumnDefinitions="*" RowDefinitions="Auto, Auto, Auto">
                         <local:CustomDataGrid
                             Name="DgDosHeader"
                             Grid.Row="0"
@@ -134,6 +134,10 @@
                             Name="DgNtHeaders"
                             Grid.Row="1"
                             ItemsSource="{Binding NtHeadersItems}" />
+                        <local:CustomDataGrid
+                            Name="DgFileHeaders"
+                            Grid.Row="2"
+                            ItemsSource="{Binding FileHeadersItems}" />
                     </Grid>
                 </ScrollViewer>
             </Grid>

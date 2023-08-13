@@ -22,6 +22,7 @@ namespace Game_Hacking_Engine.Views
             Padding = isMaximized ? new(Constants.W_PADDING) : new(0);
             FixDataGridScrollViewer(DgDosHeader, isMaximized);
             FixDataGridScrollViewer(DgNtHeaders, isMaximized);
+            FixDataGridScrollViewer(DgFileHeaders, isMaximized);
         }
 
         private void FixDataGridScrollViewer(CustomDataGrid dataGrid, bool isMaximized)

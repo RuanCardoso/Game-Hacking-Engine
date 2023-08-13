@@ -7,7 +7,7 @@ namespace Game_Hacking_Engine.Services
     internal class Module
     {
         public static string? FilePath;
-        public static int OffsetMode = 0; // 0 - By architecture, 1 - x86, 2 - x64
+        public static int OffsetMode = 0; // 0 - By architecture, 1 - x86, 2 - x64 // 0(Default) - By File Arch
 
         public static string GetStringFmtByOffsetMode(Architecture architecture)
         {
